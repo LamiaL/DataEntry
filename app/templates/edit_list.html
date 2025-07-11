@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+</head>
+
+<header>
+    <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+    <h1>Editer la liste</h1>
+</header>
+
+<body>
+       <div class="form-container"> 
+        <form method="POST" >
+        
+         <div class="form-group">
+            <label>Nom de la liste:</label>
+            <h3><label>{{ list_name }}</label></h3>
+            
+         </div>
+        
+         <div id="values-container" class="form-group">
+           <h3><label>Les valeurs :</label></h3>
+           {% for value in values %}
+            <div class="input-wrapper">
+             <div class="input-with-icon">
+               <input type="text" name="values" value="{{ value }}">
+               <i class="fa fa-trash delete-input"></i>
+             </div>
+            </div>
+           {% endfor %}
+          </div>
+
+          <div class="form-group center-button">
+            <button type="button" id="add-value"><i class="fa fa-plus"></i></button>
+          </div>
+
+         <div class="form-group center-button">
+            <button type="submit">Modifier</button>
+         </div>
+        </form>
+     </div>
+
+ </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('add-value').addEventListener('click', function () {
+      const container = document.getElementById('values-container');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'values';
+      container.appendChild(input);
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Attach delete behavior to all icons on page load
+    document.querySelectorAll('.delete-input').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (confirm('Vous voulez supprimer cette valeur?')) {
+          btn.closest('.input-wrapper').remove();
+        }
+      });
+    });
+  });
+</script>
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+ {% if messages %}
+  {% for category, message in messages %}
+    <div class="alert alert-{{ category }}" id="flash-message">
+      {{ message }}
+    </div>
+  {% endfor %}
+ {% endif %}
+ {% endwith %}
+</body>
+ </body>
+</html>

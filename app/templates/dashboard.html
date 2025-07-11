@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+<title>Dashboard</title>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <a href="{{ url_for('dashboard.dashboard_view') }}">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+                </a> 
+            </div>
+
+        
+            <h2>Hello, {{ session['username'] }}</h2>
+            <ul>
+                {% if role == 'user' %}
+                    <li><a href="{{ url_for('dashboard.dashboard_view') }}"><i class="fa-solid fa-chart-line"></i> Tableau de bord</a></li>
+                    <li><a href="{{ url_for('auth_login_bp.profileuser') }}"><i class="fa-solid fa-user-tie"></i> Mon profil</a></li>
+                    <li><a href="{{ url_for('form.form_view') }}"><i class="fas fa-box"></i> Formulaires</a></li>
+                    
+                {% elif role == 'admin' %}
+                    <li><a href="{{ url_for('dashboard.dashboard_view') }}"><i class="fa-solid fa-chart-line"></i> Tableau de bord</a></li>
+                    <li><a href="{{ url_for('auth_login_bp.profileuser') }}"><i class="fa-solid fa-user-tie"></i> Mon profil</a></li>
+                    <li><a href="{{ url_for('auth_login_bp.users') }}"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ url_for('form.form_view') }}"><i class="fas fa-box"></i> Formulaires</a></li>
+                    <li><a href="{{ url_for('data.data_view') }}"><i class="fas fa-database"></i> Données</a></li>
+                    <li><a href="{{ url_for('parameters.parameters_view') }}"><i class="fa fa-cog"></i> Paramètres</a></li>
+                {% endif %}
+            </ul>
+
+            <form action="{{ url_for('auth_login_bp.logout') }}" method="post">
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
+        </aside>
+        
+     <section id="content">
+
+		<main>
+			<ul class="box-info">
+				<li>
+                    
+                    <a href="{{ url_for('auth_login_bp.users') }}"><i class="fas fa-users"></i></a>
+                       <span class="text">
+                           <h1>{{ total_users }}</h1>
+                            <p>Le nombre des Utilisateurs</p>
+                       </span>
+					
+				</li>
+
+				<li>
+                    <a href="{{ url_for('dataenvrh.dataenvrh_view') }}"><i class="fa-solid fa-person"></i></a>
+					<span class="text">
+						<h1>{{ RH_NB }}</h1>
+						<p>Le nombre des document RH</p>
+					</span>
+
+				</li>
+
+				<li>
+                    <a href="{{ url_for('dataenv.dataenv_view') }}"><i class="fa-solid fa-boxes-stacked"></i></a>
+					<span class="text">
+						<h1>{{ INV_NB }}</h1>
+						<p>Le nombre des inventaires</p>
+					</span>
+				</li>
+
+                <li>    
+                    <a href="{{ url_for('dataenvfin.dataenvfin_view') }}"><i class="fa-solid fa-sack-dollar"></i></a>
+                       <span class="text">
+                           <h1>{{ FIN_NB }}</h1>
+                            <p>Le nombre des documents FIN</p>
+                       </span>
+					
+				</li>
+
+
+                <li>
+                    <a href="{{ url_for('dataenvm.dataenvm_view') }}"><i class="fa-solid fa-boxes-stacked"></i></a>
+					<span class="text">
+						<h1>{{ INVM_NB }}</h1>
+						<p>Le nombre des inventaires 2</p>
+					</span>
+				</li>
+               
+			</ul>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Rapport</h3>
+                    </div>
+            
+                    <div class="cards-grid">
+                        <!-- Entries RH by Date -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des documents RH par jour</h5>
+                                <canvas id="entriesRHByDateChart"></canvas>
+                            </div>
+                        </div>
+            
+                        <!-- Entries RH by Agent -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des documents RH par agent</h5>
+                                <canvas id="entriesRHByAgent"></canvas>
+                            </div>
+                        </div>
+
+                         <!-- Entries FIN by Date -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des documents FIN par jour</h5>
+                                <canvas id="entriesFINByDateChart"></canvas>
+                            </div>
+                        </div>
+            
+                        <!-- Entries FIN by Agent -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des documents FIN par agent</h5>
+                                <canvas id="entriesFINByAgent"></canvas>
+                            </div>
+                        </div>
+            
+                        <!-- Entries by Date -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des inventaires par jour</h5>
+                                <canvas id="entriesByDateChart"></canvas>
+                            </div>
+                        </div>
+            
+                        <!-- Entries by Agent -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des inventaires par agent</h5>
+                                <canvas id="entriesByAgent"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Entries inventaire M by Date -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des inventaires Madjid par jour</h5>
+                                <canvas id="entriesmByDateChart"></canvas>
+                            </div>
+                        </div>
+            
+                        <!-- Entries inventaire M by Agent -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des inventaires Madjid par agent</h5>
+                                <canvas id="entriesmByAgent"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+		<!-- MAIN -->
+	 </section>
+	<!-- CONTENT -->
+        
+    </div>
+
+    <!-- JavaScript for Charts -->
+    <script>
+        async function fetchChartData(url) {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                return [];
+            }
+        }
+
+        async function renderCharts() {
+            // Fetch RH entries by date
+            const dateDataRH = await fetchChartData("/api/entriesrh_by_date");
+            if (dateDataRH.length > 0) {
+                const dateLabels = dateDataRH.map(item => item.date);
+                const dateCounts = dateDataRH.map(item => item.count);
+
+                new Chart(document.getElementById("entriesRHByDateChart"), {
+                    type: "line",
+                    data: {
+                        labels: dateLabels,
+                        datasets: [{
+                            label: "Nb des docs RH par jour",
+                            data: dateCounts,
+                            borderColor: ["green"],
+                            fill: false
+                        }]
+                    }
+                });
+            }
+
+            // Fetch RH entries by agent
+            const agentDataRH = await fetchChartData("/api/entriesrh_by_agent");
+            if (agentDataRH.length > 0) {
+                const agentLabels = agentDataRH.map(item => item.agent);
+                const agentCounts = agentDataRH.map(item => item.count);
+
+                new Chart(document.getElementById("entriesRHByAgent"), {
+                    type: "bar",
+                    data: {
+                        labels: agentLabels,
+                        datasets: [{
+                            label: "Nb des docs RH par agent",
+                            data: agentCounts,
+                            backgroundColor: ["yellow"]
+                        }]
+                    }
+                });
+            }
+
+
+            // Fetch FIN entries by date
+            const dateDataFIN = await fetchChartData("/api/entriesfin_by_date");
+            if (dateDataFIN.length > 0) {
+                const dateLabels = dateDataFIN.map(item => item.date);
+                const dateCounts = dateDataFIN.map(item => item.count);
+
+                new Chart(document.getElementById("entriesFINByDateChart"), {
+                    type: "line",
+                    data: {
+                        labels: dateLabels,
+                        datasets: [{
+                            label: "Nb des docs FIN par jour",
+                            data: dateCounts,
+                            borderColor: ["red"],
+                            fill: false
+                        }]
+                    }
+                });
+            }
+
+            // Fetch FIN entries by agent
+            const agentDataFIN = await fetchChartData("/api/entriesfin_by_agent");
+            if (agentDataFIN.length > 0) {
+                const agentLabels = agentDataFIN.map(item => item.agent);
+                const agentCounts = agentDataFIN.map(item => item.count);
+
+                new Chart(document.getElementById("entriesFINByAgent"), {
+                    type: "bar",
+                    data: {
+                        labels: agentLabels,
+                        datasets: [{
+                            label: "Nb des docs FIN par agent",
+                            data: agentCounts,
+                            backgroundColor: ["Purple"]
+                        }]
+                    }
+                });
+            }
+
+
+
+            // Fetch entries by date
+             const dateData = await fetchChartData("/api/entries_by_date");
+            if (dateData.length > 0) {
+                const dateLabels = dateData.map(item => item.date);
+                const dateCounts = dateData.map(item => item.count);
+
+                new Chart(document.getElementById("entriesByDateChart"), {
+                    type: "line",
+                    data: {
+                        labels: dateLabels,
+                        datasets: [{
+                            label: "Nb des inventaires par jour",
+                            data: dateCounts,
+                            borderColor: ["blue"],
+                            fill: false
+                        }]
+                    }
+                });
+            }
+            // Fetch entries by agent
+             const agentData = await fetchChartData("/api/entries_by_agent");
+            if (agentData.length > 0) {
+                const agentLabels = agentData.map(item => item.agent);
+                const agentCounts = agentData.map(item => item.count);
+
+                new Chart(document.getElementById("entriesByAgent"), {
+                    type: "bar",
+                    data: {
+                        labels: agentLabels,
+                        datasets: [{
+                            label: "Nb des inventaires par agent",
+                            data: agentCounts,
+                            backgroundColor: ["Teal"]
+                        }]
+                    }
+                });
+            }
+
+             // Fetch entries Madjid by date
+             const dateDataM = await fetchChartData("/api/entriesm_by_date");
+            if (dateDataM.length > 0) {
+                const dateLabels = dateDataM.map(item => item.date);
+                const dateCounts = dateDataM.map(item => item.count);
+
+                new Chart(document.getElementById("entriesmByDateChart"), {
+                    type: "line",
+                    data: {
+                        labels: dateLabels,
+                        datasets: [{
+                            label: "Nb des inventaires par jour",
+                            data: dateCounts,
+                            borderColor: ["#B0FC38"],
+                            fill: false
+                        }]
+                    }
+                });
+            }
+            // Fetch entries Madjid by agent
+            const agentDataM = await fetchChartData("/api/entriesm_by_agent");
+            if (agentDataM.length > 0) {
+                const agentLabels = agentDataM.map(item => item.agent);
+                const agentCounts = agentDataM.map(item => item.count);
+
+                new Chart(document.getElementById("entriesmByAgent"), {
+                    type: "bar",
+                    data: {
+                        labels: agentLabels,
+                        datasets: [{
+                            label: "Nb des inventaires par agent",
+                            data: agentCounts,
+                            backgroundColor: ["Magenta"]
+                        }]
+                    }
+                });
+            }
+
+             
+
+        }
+
+        document.addEventListener("DOMContentLoaded", renderCharts);
+    </script>
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+ {% if messages %}
+  {% for category, message in messages %}
+    <div class="alert alert-{{ category }}" id="flash-message">
+      {{ message }}
+    </div>
+  {% endfor %}
+ {% endif %}
+ {% endwith %}
+</body>
+
+
+{% endblock %}
+

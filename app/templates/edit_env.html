@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventaire</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+<body>
+
+    <header>
+      <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+        <h1>Inventaire</h1>
+    </header>
+
+    <div class="form-container"> 
+      <form action="{{ url_for('edit_data.dynamic_update', idTable='dataENVTable', id=row['id']) }}" method="POST">
+       <div class="form-group">  
+         <label for="nameAgent">Nom agent: <span class="required">*</span></label>
+         <input type="text" id="nameAgent" name="nameAgent" value="{{ session['username'] }}" readonly>
+       </div>
+      
+       <div class="form-group">
+         <label for="boxNum">Num boite:<span class="required">*</span> </label>
+         <input type="number" name="boxNum" value="{{ row['boxNum'] }}" required>
+       </div>
+
+       <div class="form-group">
+         <label for="strc">Structure:</label>
+         <select type="text" name="strc" >
+          <option value="" disabled {% if not row['strc'] %}selected{% endif %}></option>
+          <option value="RH" {% if row['strc'] == 'RH' %}selected{% endif %}>RH</option>
+          <option value="Finance" {% if row['strc'] == 'Finance' %}selected{% endif %}>Finance</option>
+         </select>
+       </div>
+
+       <div class="form-group">
+         <label for="exr">Exercice:<span class="required">*</span></label>
+         <input type="text" name="exr" name="exr" value="{{ row['exr'] }}" required>
+       </div>
+
+       <div class="form-group">
+         <label for="intl">Intitulé:<span class="required">*</span></label>
+         <input type="text" name="intl" name="intl" value="{{ row['intl'] }}" required>
+       </div>
+
+       <div class="form-group center-button">
+         <label for="addTopo">Adresse topo:</label>
+         <input type="text" name="addTopo"  value="{{ row['addTopo'] }}">
+       </div>
+
+       <div class="form-group center-button">
+         <button type="submit">Changer</button>
+       </div>
+      </form>
+   </div>
+    
+ {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+ {% endwith %}
+
+</body>
+</html>

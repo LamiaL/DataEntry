@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Données inventaires 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styledata.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+
+
+<header>
+    <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+    <a href="/downloadenvm" class="download-btn">Download Data</a>
+</header>
+
+<body>
+    <div class="container">
+        <h2>Data Inventaire</h2>
+        <div class="table-responsive">
+         <table id="dataENVMTable">
+            <thead>
+                <tr>
+                    <th>Actions</th> 
+                    <th data-column="id">ID</th>
+                    <th data-column="nameAgent">Nom d'agent</th>
+                    <th data-column="boxCote">Num box-caisse</th>
+                    <th data-column="boxNum">Num boite</th>
+                    <th data-column="strc">Structure</th>
+                    <th data-column="intl">Intitulé</th>
+                    <th data-column="mois">Mois</th>
+                    <th data-column="anne">Année</th>
+                    <th data-column="typeDoc">Type Document</th>
+                    <th data-column="cond">Conditionnement</th>
+                    <th data-column="comtr">Commentaire</th>
+                    <th data-column="created_at">Date</th>
+                </tr>
+
+                <tr>
+                  <th></th>
+                  <th><input type="text" placeholder="Filter ID"></th>
+                  <th>
+                    <select id="filter-agent">
+                      <option value="">Tous les agents</option>
+                      <!-- usernames will be inserted here dynamically -->
+                    </select>
+                  </th>
+                  <th><input type="text" placeholder="Filter Box-caisse"></th>
+                  <th><input type="text" placeholder="Filter Boite"></th>
+                  <th>
+                     <select>
+                      <option value=""selected>tous les structures</option>
+                       {% for s in list_values %}
+                         <option value="{{ s }}">{{ s }}</option>
+                       {% endfor %}
+                    </select>
+                  </th>
+                  <th><input type="text" placeholder="Filter Intitulé"></th>
+                  <th>
+                    <select>
+                     <option value="">Tous les Mois </option>
+                     <option value="JANVIER">JANVIER</option>
+                     <option value="FÉVRIER">FÉVRIER</option>
+                     <option value="MARS">MARS</option>
+                     <option value="AVRIL">AVRIL</option>
+                     <option value="MAI">MAI</option>
+                     <option value="JUIN">JUIN</option>
+                     <option value="JUILLET">JUILLET</option>
+                     <option value="AOÛT">AOÛT</option>
+                     <option value="SEPTEMBRE">SEPTEMBRE</option>
+                     <option value="OCTOBRE">OCTOBRE</option>
+                     <option value="NOVEMBRE">NOVEMBRE</option>
+                     <option value="DÉCEMBRE">DÉCEMBRE</option>
+                    </select>
+                  </th>
+                  <th><input type="text" placeholder="Filter Année"></th>
+                  <th><input type="text" placeholder="Filter Type"></th>
+                  <th>
+                    <select>
+                      <option value=""selected>tous les options</option>
+                       {% for s in list2_values %}
+                         <option value="{{ s }}">{{ s }}</option>
+                       {% endfor %}
+                    </select>
+                  </th>
+                  <th><input type="text" placeholder="Filter Commentaire"></th>
+                  <th><input type="date" placeholder="Filter Date"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- data will be inserted here dynamically -->
+            </tbody>
+         </table>
+        </div>
+    </div>
+
+<!-- call the function to insert the data -->
+   <script src="{{ url_for('static', filename='js/data.js') }}" defer></script>
+   <script>
+   document.addEventListener("DOMContentLoaded", function () {
+    setupDataTable({
+        tableId: "dataENVMTable",
+        basePath: "",            
+        limit: 20
+    });
+   });
+   </script>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}" id="flash-message">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+
+</body>
+</html>

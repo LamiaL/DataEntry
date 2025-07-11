@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document RH</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+<body>
+
+    <header>
+      <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+        <h1>Document RH</h1>
+    </header>
+
+
+    <div class="form-container"> 
+     <form action="{{ url_for('edit_data.dynamic_update', idTable='dataFINTable', id=row['id']) }}" method="POST">
+       <div class="form-group">  
+         <label for="nameAgent">Nom agent: <span class="required">*</span></label>
+         <input type="text" id="nameAgent" name="nameAgent" value="{{ session['username'] }}" readonly>
+       </div>
+
+      <div class="form-group">
+        <label for="typedoc">Type document:</label>
+        <input type="text" name="typedoc" value="{{ row['typedoc'] }}">
+      </div>
+
+      <div class="form-group">
+        <label for="de">De:</label>
+        <input type="number" id="de" name="de" value="{{ row['de'] }}">
+      </div>
+
+      <div class="form-group">
+        <label for="au">Au:</label>
+        <input type="number" id="au" name="au" value="{{ row['au'] }}" >
+      </div>
+
+       <div class="form-group">
+        <label for="boxNum">Num boite:<span class="required">*</span> </label>
+        <input type="number" name="boxNum" value="{{ row['boxNum'] }}" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="manque">Manque: </label>
+        <input type="number" name="manque" value="{{ row['manque'] }}">
+      </div>
+      
+       <div class="form-group center-button">
+        <label for="rmq">Remarque:</label>
+        <input type="text" name="rmq" value="{{ row['rmq'] }}">
+      </div>
+
+       <div class="form-group center-button">
+         <button type="submit">Changer</button>
+       </div>
+      </form>
+   </div>
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+ {% endwith %}
+
+</body>
+</html>

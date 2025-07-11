@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document RH</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+<body>
+
+    <header>
+      <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+        <h1>Document RH</h1>
+    </header>
+
+    <div class="form-container"> 
+     <form action="{{ url_for('edit_data.dynamic_update', idTable='dataRHTable', id=row['id']) }}" method="POST">
+       <div class="form-group">  
+         <label for="nameAgent">Nom agent: <span class="required">*</span></label>
+         <input type="text" id="nameAgent" name="nameAgent" value="{{ session['username'] }}" readonly>
+       </div>
+      
+       <div class="form-group">
+         <label for="mtl">Matricule: </label>
+         <input type="number" name="mtl" value="{{ row['mtl'] }}">
+       </div>
+
+
+       <div class="form-group">
+         <label for="name">Nom:<span class="required">*</span></label>
+         <input type="text" name="name" value="{{ row['name'] }}" required>
+       </div>
+
+       <div class="form-group">
+        <label for="fname">Prénom:<span class="required">*</span></label>
+        <input type="text" name="fname" value="{{ row['fname'] }}" required>
+      </div>
+
+       <div class="form-group">
+         <label for="bday">Date de naissance:</label>
+         <input 
+         type="text" 
+         id="bday" 
+         name="bday" 
+         placeholder="jj/mm/aaaa" 
+         maxlength="10"
+         inputmode="numeric"
+         pattern="\d{2}/\d{2}/\d{4}"
+         value="{{ row['bday'] }}"
+         >
+         
+       </div>
+
+       <div class="form-group">
+        <label for="fonction">Fonction:</label>
+        <input type="text" name="fonction" value="{{ row['fonction'] }}">
+       </div>
+
+      <div class="form-group">
+        <label for="dent">Date d'entée:</label>
+        <input 
+        type="text"
+        id="dent"
+        name="dent"
+        placeholder="jj/mm/aaaa" 
+        maxlength="10" 
+        inputmode="numeric"
+        pattern="\d{2}/\d{2}/\d{4}"
+        value="{{ row['dent'] }}"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="dsor">Date de sortie:</label>
+        <input 
+        type="text"
+        id="dsor"
+        name="dsor"
+        placeholder="jj/mm/aaaa" 
+        maxlength="10" 
+        inputmode="numeric"
+        pattern="\d{2}/\d{2}/\d{4}"
+        value="{{ row['dsor'] }}"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="motifdepart">Motif de départ:</label>
+        <select type="text" name="motifdepart" >
+          <option value=""{% if not row['motifdepart'] %}selected{% endif %}></option>
+          <option value="Essai non concluant" {% if row['motifdepart'] == 'Essai_non_concluant' %}selected{% endif %}>Essai non concluant</option>
+          <option value="Licenciement" {% if row['motifdepart'] == 'Licenciement' %}selected{% endif %}>Licenciement</option>
+          <option value="Abandon de poste" {% if row['motifdepart'] == 'Abandon_de_poste' %}selected{% endif %}>Abandon de poste</option>
+          <option value="départ volontaire" {% if row['motifdepart'] == 'départ_volontaire' %}selected{% endif %}>départ volontaire</option>
+          <option value="Retraite" {% if row['motifdepart'] == 'Retraite' %}selected{% endif %}>Retraite</option>
+          <option value="Fin contract" {% if row['motifdepart'] == 'Fin_contract' %}selected{% endif %}>Fin contract</option>
+          <option value="Décès" {% if row['motifdepart'] == 'Décès' %}selected{% endif %}>Décès</option>
+          <option value="Service militaire" {% if row['motifdepart'] == 'Service_militaire' %}selected{% endif %}>Service militaire</option>
+          <option value="Contentieux" {% if row['motifdepart'] == 'Contentieux' %}selected{% endif %}>Contentieux</option>
+         </select>
+      </div>
+
+       <div class="form-group">
+        <label for="boxNum">Num boite:<span class="required">*</span> </label>
+        <input type="number" name="boxNum" value="{{ row['boxNum'] }}" required>
+      </div>
+
+       <div class="form-group center-button">
+         <label for="addTopo">Adresse topo:</label>
+         <input type="text" name="addTopo" value="{{ row['addTopo'] }}">
+       </div>
+       
+       <div class="form-group center-button">
+        <label for="rmq">Remarque:</label>
+        <input type="text" name="rmq" value="{{ row['rmq'] }}">
+      </div>
+
+       <div class="form-group center-button">
+         <button type="submit">Changer</button>
+       </div>
+      </form>
+   </div>
+
+ <script>
+  function formatDateInput(inputElement) {
+    inputElement.addEventListener('input', function(e) {
+      let input = e.target.value.replace(/\D/g, ''); // Remove non-digits
+      if (input.length > 8) input = input.slice(0, 8);
+  
+      let day = input.slice(0, 2);
+      let month = input.slice(2, 4);
+      let year = input.slice(4, 8);
+  
+      if (parseInt(day) > 31) day = '31';
+      if (parseInt(month) > 12) month = '12';
+
+      if (year.length === 4) {
+       const currentYear = new Date().getFullYear();
+       let yearNum = parseInt(year);
+       if (yearNum > currentYear) year = currentYear.toString();
+       if (yearNum < 1800) year = '1900';
+    }
+  
+      let formatted = day;
+      if (month) formatted += '/' + month;
+      if (year) formatted += '/' + year;
+  
+      e.target.value = formatted;
+    });
+  }
+  
+  // Apply to both fields
+  formatDateInput(document.getElementById('bday'));
+  formatDateInput(document.getElementById('dent'));
+  formatDateInput(document.getElementById('dsor'));
+ </script>
+
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+ {% endwith %}
+
+    
+
+</body>
+</html>

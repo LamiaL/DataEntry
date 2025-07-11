@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+<title>Paramètres</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <a href="{{ url_for('dashboard.dashboard_view') }}">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+                </a> 
+            </div>
+
+            <h2>Hello, {{ session['username'] }}</h2>
+            <ul>
+                {% if role == 'user' %}
+                    <li><a href="{{ url_for('dashboard.dashboard_view') }}"><i class="fa-solid fa-chart-line"></i> Tableau de bord</a></li>
+                    <li><a href="{{ url_for('auth_login_bp.profileuser') }}"><i class="fa-solid fa-user-tie"></i> Mon profil</a></li>
+                    <li><a href="{{ url_for('form.form_view') }}"><i class="fas fa-box"></i> Formulaires</a></li>
+                    
+                {% elif role == 'admin' %} 
+                    <li><a href="{{ url_for('dashboard.dashboard_view') }}"><i class="fa-solid fa-chart-line"></i> Tableau de bord</a></li>
+                    <li><a href="{{ url_for('auth_login_bp.profileuser') }}"><i class="fa-solid fa-user-tie"></i> Mon profil</a></li>
+                    <li><a href="{{ url_for('auth_login_bp.users') }}"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ url_for('form.form_view') }}"><i class="fas fa-box"></i> Formulaires</a></li>
+                    <li><a href="{{ url_for('data.data_view') }}"><i class="fas fa-database"></i> Données</a></li>
+                    <li><a href="{{ url_for('parameters.parameters_view') }}"><i class="fa fa-cog"></i> Paramètres</a></li>
+                {% endif %}   
+            </ul>
+
+            <form action="{{ url_for('auth_login_bp.logout') }}" method="post">
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
+        </aside>
+
+
+        <div class="form-container">
+            <table class="form-table">
+                <tr>
+                  <td><a href="{{ url_for('parameters.edit_list', list_name='structures') }}"><i class="fa-solid fa-list"></i> Structures (inventaire 1)</a></td>
+                </tr>
+                <tr>
+                  <td><a href="{{ url_for('parameters.edit_list', list_name='motif_depart') }}"><i class="fa-solid fa-list"></i> Motif de depart (formulaire RH)</a></td>
+                </tr>
+                <tr>
+                  <td><a href="{{ url_for('parameters.edit_list', list_name='type_doc') }}"><i class="fa-solid fa-list"></i> Type de document (formulaire FIN)</a></td>
+                </tr>
+                <tr>
+                  <td><a href="{{ url_for('parameters.edit_list', list_name='structures2') }}"><i class="fa-solid fa-list"></i> Structures (inventaire 2)</a></td>
+                </tr>
+                 <tr>
+                  <td><a href="{{ url_for('parameters.edit_list', list_name='conditionnement') }}"><i class="fa-solid fa-list"></i> Conditionnement (inventaire 2)</a></td>
+                </tr>
+            </table>
+        </div>
+       
+       
+     
+    </div>
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+ {% if messages %}
+  {% for category, message in messages %}
+    <div class="alert alert-{{ category }}" id="flash-message">
+     {{ message }}
+    </div>
+  {% endfor %}
+ {% endif %}
+ {% endwith %}
+   
+</body> 
+      
+{% endblock %}
+

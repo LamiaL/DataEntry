@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les inventaires</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styledata.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+
+
+<header>
+    <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+    <a href="/download" class="download-btn">Download Data</a>
+</header>
+
+<body>
+    <div class="container">
+        <h2>Inventory Data</h2>
+        <div class="table-responsive">
+         <table id="dataENVTable">
+            <thead>
+                <tr>
+                    <th>Actions</th> 
+                    <th data-column="id">ID</th>
+                    <th data-column="nameAgent">Nom d'agent</th>
+                    <th data-column="boxNum">Num de boite</th>
+                    <th data-column="strc">Structure</th>
+                    <th data-column="exr">Exercice</th>
+                    <th data-column="intl">Intitulé</th>
+                    <th data-column="addTopo">Addresse Topo</th>
+                    <th data-column="created_at">Date</th>
+                </tr>
+                <tr>
+                    <th></th> 
+                    <th><input type="text" placeholder="Filter ID"></th>
+                    <th>
+                     <select id="filter-agent">
+                      <option value="">Tous les agents</option>
+                      <!-- usernames will be inserted here dynamically -->
+                     </select>
+                    </th>
+                    <th><input type="number" placeholder="Filter Num de Boite"></th>
+                    <th>
+                    <select>
+                      <option value=""selected>tous les structures</option>
+                       {% for s in list_values %}
+                         <option value="{{ s }}">{{ s }}</option>
+                       {% endfor %}
+                    </select>
+                    </th>
+                    <th><input type="text" placeholder="Filter Exercice"></th>
+                    <th><input type="text" placeholder="Filter Intitulé"></th>
+                    <th><input type="text" placeholder="Filter Addresse Topo"></th>
+                    <th><input type="date" placeholder="Filter Date"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be inserted here dynamically -->
+            </tbody>
+         </table>
+        </div>
+    </div>
+
+    
+    <script src="{{ url_for('static', filename='js/data.js') }}" defer></script>
+    <script>
+   document.addEventListener("DOMContentLoaded", function () {
+    setupDataTable({
+        tableId: "dataENVTable", // matches your <table id="...">
+        basePath: "",             // optional (if route is /get_data_dataENVMTable)
+        limit: 20
+    });
+   });
+   </script>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}" id="flash-message">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+
+</body>
+</html>
+

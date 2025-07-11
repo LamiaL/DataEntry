@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylelogin.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>Welcome</h1>
+
+        <img src="{{ url_for('static', filename='images/logo.png') }} " alt="Logo" class="logo"> 
+
+      <form action="{{ url_for('auth_login_bp.login' , _external=True) }}" method="POST">
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" placeholder="Username" class="input-box">
+
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" placeholder="Password" class="input-box">
+
+        <button class="login-btn">Login</button>
+      </form>
+    </div>
+   
+
+    <footer class="footer">
+      <p>Made by Lamia V4.3</p>
+  </footer>
+
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}" id="flash-message">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+</body>
+</html>

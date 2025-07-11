@@ -1,0 +1,232 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;  
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: black;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    background: url('../images/image.jpg') no-repeat center center/cover;
+    background-attachment: fixed; /* Keeps background from moving */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+h1 {
+    color: #007bff;
+    font-size: large;
+}
+
+/* Fix logo size */
+.logo {
+    height: 60px; /* Adjust size as needed */
+}
+
+/* Prevent white space at the bottom */
+.form-container {
+    max-width: 90%;
+    width: 500px;
+    min-height: 400px; /* Ensures form has enough space */
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.form-group label {
+    width: 150px;
+    text-align: left;
+    font-size: medium;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 40px;
+    font-size: 15px;
+    box-sizing: border-box;
+     margin-bottom: 2px;
+}
+
+
+/* Responsive Fix for Tablets */
+@media (max-width: 1024px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo {
+        max-width: 80px; /* Keep logo small */
+    }
+
+    .form-container {
+        width: 95%;
+        min-height: auto;
+    }
+
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-group label {
+        width: 100%;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+    }
+}
+
+
+.required {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+button {
+    background-color: #ec2626;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin: 20px auto; 
+    display: block;   
+    width: 40%;
+    padding: 10px;
+    font-size: 18px;
+
+}
+
+button:hover {
+    background-color: #944343;
+}
+
+
+.alert {
+    position: fixed;
+    top: 10px; /* 10px from the top of the page */
+    left: 50%;
+    transform: translateX(-50%); /* Center the alert horizontally */
+    z-index: 9999; /* Make sure it's above other content */
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+.alert-danger {
+    background-color: #f8d7da;
+    color: #cf3847;
+}
+textarea.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 40px;
+    font-size: 15px;
+    box-sizing: border-box;           
+    min-height: 38px;       /* Same height as a typical input field */
+    font-family: inherit;
+    resize: none;           /* Prevent manual resize */
+    overflow: hidden;       /* Hide scrollbar */
+}
+
+/* Make <select> look like inputs */
+.styled-select {
+     width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 40px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* add hover/focus effect */
+.styled-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 3px #007bff66;
+  outline: none;
+}
+/* Stack each input row */
+.input-wrapper {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+/* Position trash icon inside the input */
+.input-with-icon {
+  position: relative;
+  width: 100%;
+}
+
+/* Style input field for list edition*/
+.input-with-icon input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 35px; /* space for trash icon */
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 40px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+/* Trash icon inside input */
+.input-with-icon .delete-input {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #007bff;
+  cursor: pointer;
+}
+.input-with-icon .delete-input:hover {
+  color: red;
+}

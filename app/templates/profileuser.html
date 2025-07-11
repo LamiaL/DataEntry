@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+
+<header>
+    <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+    <h1>Mon profile</h1>
+</header>
+
+<body>
+  
+    <div class="form-container"> 
+       
+        <p><strong>Nom d'utilisateur:</strong> {{ user[1] }}</p>
+        <p><strong>Role:</strong> {{ user[2] }}</p>
+
+        <h3>Change le mot de passe</h3>
+    
+    
+        <form method="POST" action="{{ url_for('auth_login_bp.change_own_password') }}">
+            <label for="new_password">Nouveau mot de passe:</label>
+            <input type="password" id="new_password" name="new_password" required>
+          <div class="form-group center-button">
+            <button type="submit">Valider</button>
+          </div>
+       </form>
+
+       <a href="{{ url_for('dashboard.dashboard_view') }}">Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document RH</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+<body>
+
+    <header>
+      <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+        <h1>Inventaire MLE</h1>
+    </header>
+
+    <div class="form-container"> 
+     <form action="{{ url_for('edit_data.dynamic_update', idTable='dataENVMTable', id=row['id']) }}" method="POST">
+       <div class="form-group">  
+         <label for="nameAgent">Nom agent: <span class="required">*</span></label>
+         <input type="text" id="nameAgent" name="nameAgent" value="{{ session['username'] }}" readonly>
+       </div>
+      
+       <div class="form-group">
+         <label for="boxCote">Cote box-Caisse: </label>
+         <input type="text" name="boxCote" value="{{ row['boxCote'] }}">
+       </div>
+        
+       <div class="form-group">
+        <label for="boxNum">Num boite:<span class="required">*</span></label>
+        <select type="text" name="boxNum" >
+        <option value="" disabled {% if not row['boxNum'] %}selected{% endif %}></option>
+          {% for i in range(1, 151) %}
+            {% set value = '{:04d}'.format(i) %}
+             <option value="{{ value }}" {% if row['boxNum'] == value %}selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+       </div>
+
+       <div class="form-group">
+        <label for="strc">Structure:<span class="required">*</span></label>
+        <select type="text" name="strc" >
+          <option value="" disabled {% if not row['strc'] %}selected{% endif %}></option>
+          <option value="APCO" {% if row['strc'] == 'APCO' %}selected{% endif %}>APCO</option>
+          <option value="DRH" {% if row['strc'] == 'DRH' %}selected{% endif %}>DRH</option>
+          <option value="FORAGE" {% if row['strc'] == 'FORAGE' %}selected{% endif %}>FORAGE</option>
+          <option value="SIE" {% if row['strc'] == 'SIE' %}selected{% endif %}>SIE</option>
+          <option value="FORMATION" {% if row['strc'] == 'FORMATION' %}selected{% endif %}>FORMATION</option>
+          <option value="DFC" {% if row['strc'] == 'DFC' %}selected{% endif %}>DFC</option>
+          <option value="QHSE" {% if row['strc'] == 'QHSE' %}selected{% endif %}>QHSE</option>
+          <option value="valuer1" {% if row['strc'] == 'valeur1' %}selected{% endif %}>valeur1</option>
+          <option value="valuer2" {% if row['strc'] == 'valeur2' %}selected{% endif %}>valeur2</option>
+          <option value="valuer3" {% if row['strc'] == 'valeur3' %}selected{% endif %}>valeur3</option>
+          <option value="valuer4" {% if row['strc'] == 'valeur4' %}selected{% endif %}>valeur4</option>
+          <option value="valuer5" {% if row['strc'] == 'valeur5' %}selected{% endif %}>valeur5</option>
+         </select>
+       </div>
+
+       <div class="form-group">
+        <label for="intl">Intitulé:<span class="required">*</span></label>
+        <textarea name="intl"  class="form-control auto-expand" required>{{ row['intl'] }}</textarea>
+       </div>
+
+       <div class="form-group">
+        <label for="mois">Mois:</label>
+        <select type="text" name="mois" >
+            <option value="" {% if not row['mois'] %}selected{% endif %}></option>
+            <option value="JANVIER" {% if row['mois'] == 'JANVIER' %}selected{% endif %}>JANVIER</option>
+            <option value="FÉVRIER" {% if row['mois'] == 'FÉVRIER' %}selected{% endif %}>FÉVRIER</option>
+            <option value="MARS" {% if row['mois'] == 'MARS' %}selected{% endif %}>MARS</option>
+            <option value="AVRIL" {% if row['mois'] == 'AVRIL' %}selected{% endif %}>AVRIL</option>
+            <option value="MAI" {% if row['mois'] == 'MAI' %}selected{% endif %}>MAI</option>
+            <option value="JUIN" {% if row['mois'] == 'JUIN' %}selected{% endif %}>JUIN</option>
+            <option value="JUILLET" {% if row['mois'] == 'JUILLET' %}selected{% endif %}>JUILLET</option>
+            <option value="AOÛT" {% if row['mois'] == 'AOÛT' %}selected{% endif %}>AOÛT</option>
+            <option value="SEPTEMBRE" {% if row['mois'] == 'SEPTEMBRE' %}selected{% endif %}>SEPTEMBRE</option>
+            <option value="OCTOBRE" {% if row['mois'] == 'OCTOBRE' %}selected{% endif %}>OCTOBRE</option>
+            <option value="NOVEMBRE" {% if row['mois'] == 'NOVEMBRE' %}selected{% endif %}>NOVEMBRE</option>
+            <option value="DÉCEMBRE" {% if row['mois'] == 'DÉCEMBRE' %}selected{% endif %}>DÉCEMBRE</option> 
+         </select>
+       </div>
+ 
+       <div class="form-group">
+        <label for="anne">Année:</label>
+        <textarea name="anne"  class="form-control auto-expand" required>{{ row['anne'] }}</textarea>
+       </div>
+         
+       <div class="form-group">
+        <label for="typeDoc">Type Document:</label>
+        <select type="text" name="typeDoc" >
+          <option value="" disabled {% if not row['typeDoc'] %}selected{% endif %}></option>
+          <option value="Soft" {% if row['typeDoc'] == 'Soft' %}selected{% endif %}>Soft</option>
+          <option value="Hard" {% if row['typeDoc'] == 'Hard' %}selected{% endif %}>Hard</option>
+          <option value="Hard & Soft" {% if row['typeDoc'] == 'Hard & Soft' %}selected{% endif %}>Hard & Soft</option>
+         </select>
+       </div>
+
+       <div class="form-group">
+        <label for="cond">Conditionnement:<span class="required">*</span></label>
+        <select type="text" name="cond" >
+          <option value="" disabled {% if not row['cond'] %}selected{% endif %}></option>
+          <option value="Chrono" {% if row['cond'] == 'Chrono' %}selected{% endif %}>Chrono</option>
+          <option value="Boite" {% if row['cond'] == 'Boite' %}selected{% endif %}>Boite</option>
+          <option value="Enveloppe" {% if row['cond'] == 'Enveloppe' %}selected{% endif %}>Enveloppe</option>
+          <option value="Chemise" {% if row['cond'] == 'Chemise' %}selected{% endif %}>Chemise</option>
+          <option value="Dossier" {% if row['cond'] == 'Dossier' %}selected{% endif %}>Dossier</option>
+          <option value="CD-ROM" {% if row['cond'] == 'CD-ROM' %}selected{% endif %}>CD-ROM</option>
+          <option value="valuer1" {% if row['cond'] == 'valeur1' %}selected{% endif %}>valeur1</option>
+          <option value="valuer2" {% if row['cond'] == 'valeur2' %}selected{% endif %}>valeur2</option>
+          <option value="valuer3" {% if row['cond'] == 'valeur3' %}selected{% endif %}>valeur3/option>
+          <option value="valuer4" {% if row['cond'] == 'valeur4' %}selected{% endif %}>valeur4</option>
+          <option value="valuer5" {% if row['cond'] == 'valeur5' %}selected{% endif %}>valeur5</option>
+         </select>
+       </div>
+       
+       <div class="form-group center-button">
+        <label for="comtr">Commentaire:</label>
+        <input type="text" name="comtr" value="{{ row['comtr'] }}">
+       </div>
+
+       <div class="form-group center-button">
+         <button type="submit">Changer</button>
+       </div>
+      </form>
+   </div>
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+ {% endwith %}
+
+</body>
+</html>
+
+<script>
+document.querySelectorAll('textarea.auto-expand').forEach(textarea => {
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
+});
+</script>

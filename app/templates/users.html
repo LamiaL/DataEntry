@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styledata.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+<body>
+
+    <header>
+        <a href="{{ url_for('dashboard.dashboard_view') }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+        </a>
+        <h1>Liste des utilisateurs</h1>
+    </header>
+
+    <div>
+       <h2>Users Management</h2>
+       
+    </div>
+    
+
+    <div class="container">
+        <button onclick= location.href="{{ url_for('auth_login_bp.add_user') }}">Ajouter un nouveau utilisateurs </button>
+        <div class="table-responsive">
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Nom des utilisateurs</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[3] }}</td>
+                <td>
+                    <select class="action-select" onchange="handleActionChange(this)">
+                        <option value="" disabled selected> </option>
+                        <option value="{{ url_for('auth_login_bp.delete_user', user_id=user[0]) }}" data-action="delete">Supprimer</option>
+                        <option value="{{ url_for('auth_login_bp.change_password', user_id=user[0]) }}" data-action="change_password">Change le mot de passe</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='users.js') }}"></script>
+    <script>
+        function handleActionChange(select) {
+            const selectedValue = select.value;
+            const selectedOption = select.options[select.selectedIndex];
+            
+            // If the selected action is delete, show confirmation first
+            if (selectedOption && selectedOption.getAttribute('data-action') === 'delete') {
+                if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur?")) {
+                    window.location.href = selectedValue; // Redirect to the delete URL
+                } else {
+                    // Reset selection if the user cancels
+                    select.value = "";
+                }
+            } else if (selectedValue) {
+                // If it's not "Supprimer", just redirect
+                window.location.href = selectedValue;
+            }
+        }
+    </script>
+
+
+   {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+     {% for category, message in messages %}
+       <div class="alert alert-{{ category }}" id="flash-message">
+         {{ message }}
+       </div>
+     {% endfor %}
+    {% endif %}
+   {% endwith %}
+
+
+</body>
+</html>

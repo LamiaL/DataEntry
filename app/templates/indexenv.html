@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventaire 2</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+<body>
+
+    <header>
+      <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+        <h1>Inventaire 2</h1>
+    </header>
+
+
+    <div class="form-container"> 
+      <form action="/addenvm" method="post">
+       <div class="form-group">  
+         <label for="nameAgent">Nom agent: <span class="required">*</span></label>
+         <input type="text" id="nameAgent" name="nameAgent" value="{{ session['username'] }}" readonly>
+       </div>
+      
+       <div class="form-group">
+         <label for="boxCote">Cote Box-Caisse:<span class="required">*</span> </label>
+         <input type="text" name="boxCote" required>
+       </div>
+   
+    <div class="form-group">
+     <label for="boxNum">Num boite:<span class="required">*</span></label>
+      <select type="text" name="boxNum" required>
+        <option value="" disabled selected> </option>
+        {% for i in range(1, 151) %}
+          {% set value = '{:04d}'.format(i) %}
+          <option value="{{ value }}">{{ value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+       <div class="form-group">
+         <label for="strc">Structure:<span class="required">*</span></label>
+         <select type="text" name="strc" required >
+            <option value="" disabled selected></option>
+             {% for s in list_values %}
+              <option value="{{ s }}">{{ s }}</option>
+             {% endfor %}
+         </select>
+       </div>
+
+        <div class="form-group">
+         <label for="intl">Intitulé:<span class="required">*</span></label>
+         <textarea name="intl" class="form-control auto-expand" required></textarea>
+        </div>
+
+       <div class="form-group">
+        <label for="mois">Mois:</label>
+        <select type="text" name="mois" >
+        <option value=""> </option>
+        <option value="JANVIER">JANVIER</option>
+        <option value="FÉVRIER">FÉVRIER</option>
+        <option value="MARS">MARS</option>
+        <option value="AVRIL">AVRIL</option>
+        <option value="MAI">MAI</option>
+        <option value="JUIN">JUIN</option>
+        <option value="JUILLET">JUILLET</option>
+        <option value="AOÛT">AOÛT</option>
+        <option value="SEPTEMBRE">SEPTEMBRE</option>
+        <option value="OCTOBRE">OCTOBRE</option>
+        <option value="NOVEMBRE">NOVEMBRE</option>
+        <option value="DÉCEMBRE">DÉCEMBRE</option>
+        </select>
+       </div>
+
+       <div class="form-group">
+         <label for="Anne">Année:<span class="required">*</span></label>
+         <textarea name="anne" class="form-control auto-expand" required></textarea>
+       </div>
+        
+        <div class="form-group">
+        <label for="typeDoc">Type Document:<span class="required">*</span></label>
+        <select type="text" name="typeDoc" required>
+            <option value="" disabled selected> </option>
+            <option value="Hard">Hard</option>
+            <option value="Soft">Soft</option>
+            <option value="Hard & Soft">Hard & Soft</option>
+        </select>
+       </div>
+
+       <div class="form-group">
+        <label for="cond">Conditionnement:<span class="required">*</span></label>
+        <select type="text" name="cond" required>
+            <option value="" disabled selected></option>
+            {% for s in list2_values %}
+              <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+       </div>
+
+       <div class="form-group center-button">
+         <label for="Comtr">Commentaire:</label>
+         <input type="text" name="comtr">
+       </div>
+
+       <div class="form-group center-button">
+         <button type="submit">Valider</button>
+       </div>
+      </form>
+    </div>
+</body>
+</html>
+
+<script>
+document.querySelectorAll('textarea.auto-expand').forEach(textarea => {
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
+});
+</script>
