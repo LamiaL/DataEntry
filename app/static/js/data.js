@@ -73,27 +73,43 @@ function setupDataTable({
                     });
                 });
 
-                document.querySelectorAll(".action-select").forEach(select => {
-                    select.addEventListener("change", function () {
+                bindActionSelectHandlers();  // Initial binding
+
+                 dataTable.on('draw', function () {
+                     bindActionSelectHandlers(); // Re-bind after pagination, search, etc.
+                 });
+
+                function bindActionSelectHandlers() {
+                    document.querySelectorAll(`#${tableId} .action-select`).forEach(select => {
+                     select.addEventListener("change", function () {
                         const action = this.value;
                         const row = this.closest("tr");
                         const rowId = row.querySelector("td:nth-child(2)").textContent;
 
                         if (action === "edit") {
-                            window.location.href = `${editPath}/${rowId}`;
+                           window.location.href = `${editPath}/${rowId}`;
                         } else if (action === "delete") {
-                            const confirmation = confirm("Vous voulez supprimer cette ligne?");
-                            if (confirmation) {
-                                deleteRow(rowId, row);
-                            } else {
-                                this.selectedIndex = 0;
-                            }
-                        }
-                    });
-                });
-            })
-            .catch(error => console.error("Error fetching data:", error));
-    }
+                             const confirmation = confirm("Vous voulez supprimer cette ligne?");
+                             if (confirmation) {
+                               deleteRow(rowId, row);
+                             } else {
+                               this.selectedIndex = 0;
+                              }
+
+                         }
+                      });
+               });
+   }
+})
+     .catch(error => console.error("Error fetching data:", error));
+
+    bindActionSelectHandlers();
+
+    dataTable.on('draw', function () {
+         bindActionSelectHandlers(); // re-bind on every table redraw
+    });
+
+}
 
     function deleteRow(id, row) {
         fetch(`${deletePath}/${id}`, {
