@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document RH</title>
+    <title>Inventaire 2</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
 </head>
@@ -13,7 +13,7 @@
       <a href="{{ url_for('dashboard.dashboard_view') }}">
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
     </a>
-        <h1>Inventaire MLE</h1>
+        <h1>Inventaire 2</h1>
     </header>
 
     <div class="form-container"> 
@@ -42,19 +42,9 @@
        <div class="form-group">
         <label for="strc">Structure:<span class="required">*</span></label>
         <select type="text" name="strc" >
-          <option value="" disabled {% if not row['strc'] %}selected{% endif %}></option>
-          <option value="APCO" {% if row['strc'] == 'APCO' %}selected{% endif %}>APCO</option>
-          <option value="DRH" {% if row['strc'] == 'DRH' %}selected{% endif %}>DRH</option>
-          <option value="FORAGE" {% if row['strc'] == 'FORAGE' %}selected{% endif %}>FORAGE</option>
-          <option value="SIE" {% if row['strc'] == 'SIE' %}selected{% endif %}>SIE</option>
-          <option value="FORMATION" {% if row['strc'] == 'FORMATION' %}selected{% endif %}>FORMATION</option>
-          <option value="DFC" {% if row['strc'] == 'DFC' %}selected{% endif %}>DFC</option>
-          <option value="QHSE" {% if row['strc'] == 'QHSE' %}selected{% endif %}>QHSE</option>
-          <option value="valuer1" {% if row['strc'] == 'valeur1' %}selected{% endif %}>valeur1</option>
-          <option value="valuer2" {% if row['strc'] == 'valeur2' %}selected{% endif %}>valeur2</option>
-          <option value="valuer3" {% if row['strc'] == 'valeur3' %}selected{% endif %}>valeur3</option>
-          <option value="valuer4" {% if row['strc'] == 'valeur4' %}selected{% endif %}>valeur4</option>
-          <option value="valuer5" {% if row['strc'] == 'valeur5' %}selected{% endif %}>valeur5</option>
+          {% for val in list_values %}
+            <option value="{{ val }}" {% if row['structure'] == val %}selected{% endif %}>{{ val }}</option>
+          {% endfor %}
          </select>
        </div>
 
@@ -100,18 +90,9 @@
        <div class="form-group">
         <label for="cond">Conditionnement:<span class="required">*</span></label>
         <select type="text" name="cond" >
-          <option value="" disabled {% if not row['cond'] %}selected{% endif %}></option>
-          <option value="Chrono" {% if row['cond'] == 'Chrono' %}selected{% endif %}>Chrono</option>
-          <option value="Boite" {% if row['cond'] == 'Boite' %}selected{% endif %}>Boite</option>
-          <option value="Enveloppe" {% if row['cond'] == 'Enveloppe' %}selected{% endif %}>Enveloppe</option>
-          <option value="Chemise" {% if row['cond'] == 'Chemise' %}selected{% endif %}>Chemise</option>
-          <option value="Dossier" {% if row['cond'] == 'Dossier' %}selected{% endif %}>Dossier</option>
-          <option value="CD-ROM" {% if row['cond'] == 'CD-ROM' %}selected{% endif %}>CD-ROM</option>
-          <option value="valuer1" {% if row['cond'] == 'valeur1' %}selected{% endif %}>valeur1</option>
-          <option value="valuer2" {% if row['cond'] == 'valeur2' %}selected{% endif %}>valeur2</option>
-          <option value="valuer3" {% if row['cond'] == 'valeur3' %}selected{% endif %}>valeur3/option>
-          <option value="valuer4" {% if row['cond'] == 'valeur4' %}selected{% endif %}>valeur4</option>
-          <option value="valuer5" {% if row['cond'] == 'valeur5' %}selected{% endif %}>valeur5</option>
+          {% for val in list2_values %}
+            <option value="{{ val }}" {% if row['conditionnement'] == val %}selected{% endif %}>{{ val }}</option>
+          {% endfor %}
          </select>
        </div>
        

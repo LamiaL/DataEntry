@@ -31,9 +31,9 @@
        <div class="form-group">
          <label for="strc">Structure:</label>
          <select type="text" name="strc" >
-          <option value="" disabled {% if not row['strc'] %}selected{% endif %}></option>
-          <option value="RH" {% if row['strc'] == 'RH' %}selected{% endif %}>RH</option>
-          <option value="Finance" {% if row['strc'] == 'Finance' %}selected{% endif %}>Finance</option>
+           {% for val in list_values %}
+              <option value="{{ val }}" {% if row['strc'] == val %}selected{% endif %}>{{ val }}</option>
+           {% endfor %}
          </select>
        </div>
 

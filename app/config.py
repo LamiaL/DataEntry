@@ -23,28 +23,38 @@ TABLE_CONFIG = {
             "table_name": "entriesenvm",
             "fields": ["nameAgent", "boxCote", "boxNum", "strc","intl", "mois", "anne", "typeDoc", "cond", "comtr"],
             "template": "edit_envm.html",  
-            "redirect": "dataenvm.dataenvm_view"
+            "redirect": "dataenvm.dataenvm_view",
+            "required_lists": ["structures2", "conditionnement"],
+              "lists": [
+            {"list_name": "structures2", "key": "list_values"},
+            {"list_name": "conditionnement", "key": "list2_values"} ]
         },
         "dataFINTable": {
             "db_path": DB_PATH_FIN,
             "table_name": "entriesfin",
             "fields": ["nameAgent","typedoc","de","au", "boxNum","manque","rmq"],
             "template": "edit_fin.html",  
-            "redirect": "dataenvfin.dataenvfin_view"
+            "redirect": "dataenvfin.dataenvfin_view",
+            "lists": [
+            {"list_name": "type_doc", "key": "list_values"} ]
         },
         "dataRHTable": {
             "db_path": DB_PATH_RH,
             "table_name": "entriesrh",
             "fields": ["nameAgent","mtl","name","fname", "bday","fonction", "dent", "dsor", "motifdepart" , "boxNum" , "addTopo","rmq"],
             "template": "edit_rh.html",  
-            "redirect": "dataenvrh.dataenvrh_view"
+            "redirect": "dataenvrh.dataenvrh_view",
+            "lists": [
+            {"list_name": "motif_depart", "key": "list_values"} ]
         },
          "dataENVTable": {
             "db_path": DB_PATH,
             "table_name": "entries",
             "fields": ["nameAgent","boxNum" ,"strc","exr","intl" , "addTopo"],
             "template": "edit_env.html",  
-            "redirect": "dataenv.dataenv_view"
+            "redirect": "dataenv.dataenv_view",
+            "lists": [
+            {"list_name": "structures", "key": "list_values"} ]
         },
         "dataLSTTable": {
             "db_path": DB_PATH_LISTES,

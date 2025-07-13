@@ -14,8 +14,14 @@ def dynamic_edit(idTable, id):
         flash("Invalid table", "danger")
         return redirect(url_for("dashboard.dashboard_view"))
 
-    return edit_data_generic(id, config["db_path"], config["table_name"], config["template"], config["redirect"])
-
+    return edit_data_generic(
+        id=id,
+        bd_path=config["db_path"],
+        table_name=config["table_name"],
+        template_name=config["template"],
+        redirect_endpoint=config["redirect"],
+        lists_config=config.get("lists")  # Optional, only passed if exists
+    )
 
 @edit_data_bp.route("/update_<idTable>/<int:id>", methods=["POST"])
 @login_required
