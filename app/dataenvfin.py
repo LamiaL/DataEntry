@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-from app.services.data_function import download_csv
 from app.auth import login_required,admin_required
 from app.config import DB_PATH_FIN, CSV_PATH_FIN
 from app.services.parameters import get_db_list_connection
@@ -41,18 +40,6 @@ def add_entry_fin():
     conn.close()
 
     return redirect(url_for("indexfin.indexfin_view"))
-
-
-# ------------------ DOWNLOAD CSV inventaire FIN------------------
-@dataenvfin.route("/downloadfin")
-@login_required
-@admin_required
-def download_entries():
-    return download_csv(
-        db_path=DB_PATH_FIN,
-        table_name="entriesfin",
-        csv_path= CSV_PATH_FIN
-    )
 
 # ------------------ SHOW CSV Inventaire FIN------------------
 

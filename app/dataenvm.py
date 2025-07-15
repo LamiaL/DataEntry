@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-from app.services.data_function import download_csv
 from app.auth import login_required,admin_required
-from app.config import DB_PATH_M,CSV_PATH_M
+from app.config import DB_PATH_M
 from app.services.parameters import get_db_list_connection
 import sqlite3
 
@@ -32,7 +31,7 @@ def add_entry_envm():
     intl = request.form['intl']
     mois = request.form.get('mois', '') 
     anne = request.form['anne']
-    typeDoc = request.form['typeDoc']
+    typeDoc = request.form.get('typeDoc','')
     cond = request.form['cond']
     comtr = request.form['comtr']
 
@@ -44,17 +43,7 @@ def add_entry_envm():
     conn.close()
 
     return redirect(url_for("indexenv.indexenv_view"))
-# ------------------ DOWNLOAD CSV inventaire------------------
 
-@dataenvm.route("/downloadenvm")
-@login_required
-@admin_required
-def download_entries():
-    return download_csv(
-        db_path=DB_PATH_M,
-        table_name="entriesenvm",
-        csv_path= CSV_PATH_M
-    )
 
 # ------------------ SHOW CSV Inventaire RH-----------------
 data="entriesenvm"

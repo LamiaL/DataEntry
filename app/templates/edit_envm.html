@@ -41,9 +41,9 @@
 
        <div class="form-group">
         <label for="strc">Structure:<span class="required">*</span></label>
-        <select type="text" name="strc" >
+        <select type="text" name="strc" id="strc" >
           {% for val in list_values %}
-            <option value="{{ val }}" {% if row['structure'] == val %}selected{% endif %}>{{ val }}</option>
+            <option value="{{ val }}" {% if row['strc'] == val %}selected{% endif %}>{{ val }}</option>
           {% endfor %}
          </select>
        </div>
@@ -89,9 +89,9 @@
 
        <div class="form-group">
         <label for="cond">Conditionnement:<span class="required">*</span></label>
-        <select type="text" name="cond" >
+        <select type="text" name="cond" id="cond" >
           {% for val in list2_values %}
-            <option value="{{ val }}" {% if row['conditionnement'] == val %}selected{% endif %}>{{ val }}</option>
+            <option value="{{ val }}" {% if row['cond'] == val %}selected{% endif %}>{{ val }}</option>
           {% endfor %}
          </select>
        </div>

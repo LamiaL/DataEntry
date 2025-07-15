@@ -13,7 +13,7 @@
     <a href="{{ url_for('dashboard.dashboard_view') }}">
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
     </a>
-    <a href="/downloadrh" class="download-btn">Download Data</a>
+    <a class="download-btn" href="#" onclick="downloadFilteredCSV('dataRHTable')">Download Data</a>
 </header>
 
 <body>
@@ -24,7 +24,7 @@
             <thead>
                 <tr>
                     <th>Actions</th> 
-                    <th data-column="id">ID</th>
+                    <th data-column="id">id</th>
                     <th data-column="nameAgent" >Nom d'agent</th>
                     <th data-column="mtl">Matricule</th>
                     <th data-column="name">Nom</th>

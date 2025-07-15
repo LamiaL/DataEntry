@@ -153,3 +153,45 @@ fetch('/get_usernames')
     dataTable.draw();
      });
 });
+
+function downloadFilteredCSV(tableId) {
+    const table = $(`#${tableId}`).DataTable();
+    const filteredRows = table.rows({ search: 'applied' }).nodes();
+
+    if (filteredRows.length === 0) {
+        alert("Aucune donnée à exporter.");
+        return;
+    }
+
+    let csv = '';
+
+    // Add headers — but SKIP the first column (actions)
+    const headers = [];
+    $(`#${tableId} thead tr:first th:gt(0)`).each(function () {
+        headers.push($(this).text().trim());
+    });
+    csv += headers.join(',') + '\n';
+
+    // Loop over filtered rows and SKIP the first column
+    filteredRows.each(function (row) {
+        // Exclude the second row (filter inputs), which usually has class "filters" or position second
+
+        const rowData = [];
+        $(row).find('td:gt(0)').each(function () {
+            let text = $(this).text().trim();
+            text = text.replace(/\s+/g, ' ').replace(/,/g, ''); // Optional cleanup
+            rowData.push(`"${text}"`);
+        });
+        csv += rowData.join(',') + '\n';
+    });
+
+    // Download CSV
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `filtered_data_${tableId}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}

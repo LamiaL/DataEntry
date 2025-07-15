@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-from app.services.data_function import download_csv
 from app.auth import login_required,admin_required
 from app.config import DB_PATH_RH, CSV_PATH_RH
 from app.services.parameters import get_db_list_connection
@@ -43,18 +42,6 @@ def add_entry_rh():
     conn.close()
 
     return redirect(url_for("indexrh.indexrh_view"))
-
-# ------------------ DOWNLOAD CSV inventaire RH------------------
-@dataenvrh.route("/downloadenvrh")
-@login_required
-@admin_required
-def download_entries():
-    return download_csv(
-        db_path=DB_PATH_RH,
-        table_name="entrieserh",
-        csv_path= CSV_PATH_RH
-    )
-
 # ------------------ SHOW CSV Inventaire RH------------------
 data="entriesrh"
 def get_data_from_table(limit=None):
