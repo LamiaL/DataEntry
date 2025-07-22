@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventaire 2</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
+</head>
+<body>
+
+    <header>
+      <a href="{{ url_for('dashboard.dashboard_view') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+    </a>
+        <h1>Inventaire 2</h1>
+    </header>
+
+    <div class="form-container"> 
+     <form action="{{ url_for('edit_data.dynamic_update', idTable='dataENVDTable', id=row['id']) }}" method="POST">
+       <div class="form-group">  
+         <label for="nameAgent">Nom agent: <span class="required">*</span></label>
+         <input type="text" id="nameAgent" name="nameAgent" value="{{ row['nameAgent'] }}">
+       </div>
+      
+       <div class="form-group">
+         <label for="boxCote">Cote box-Caisse: </label>
+         <input type="text" name="boxCote" value="{{ row['boxCote'] }}">
+       </div>
+        
+       <div class="form-group">
+        <label for="boxNum">Num boite:<span class="required">*</span></label>
+        <select type="text" name="boxNum" >
+        <option value="" disabled {% if not row['boxNum'] %}selected{% endif %}></option>
+          {% for i in range(1, 151) %}
+            {% set value = '{:04d}'.format(i) %}
+             <option value="{{ value }}" {% if row['boxNum'] == value %}selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+       </div>
+
+       <div class="form-group">
+        <label for="strc">Structure:<span class="required">*</span></label>
+        <select type="text" name="strc" id="strc" >
+          {% for val in list_values %}
+            <option value="{{ val }}" {% if row['strc'] == val %}selected{% endif %}>{{ val }}</option>
+          {% endfor %}
+         </select>
+       </div>
+
+       <div class="form-group">
+        <label for="intl">Intitulé:<span class="required">*</span></label>
+        <textarea name="intl"  class="form-control auto-expand" required>{{ row['intl'] }}</textarea>
+       </div>
+
+       <div class="form-group">
+        <label for="typeDoc">Type document:</label>
+        <input type="text" name="typeDoc" value="{{ row['typeDoc'] }}">
+       </div>
+       
+       <div class="form-group">
+        <label for="Ref">Type document:</label>
+        <input type="text" name="Ref" value="{{ row['Ref'] }}">
+       </div>
+
+       <div class="form-group">
+        <label for="catg">category:</label>
+        <select type="text" name="catg">
+          <option value="" disabled {% if not row['catg'] %}selected{% endif %}></option>
+          <option value="TRAIN 01" {% if row['catg'] == 'TRAIN 01' %}selected{% endif %}>TRAIN 01</option>
+          <option value="TRAIN 02" {% if row['catg'] == 'TRAIN 02' %}selected{% endif %}>TRAIN 02</option>
+          <option value="TRAIN 03" {% if row['catg'] == 'TRAIN 03' %}selected{% endif %}>TRAIN 03</option>
+          <option value="PUIT" {% if row['catg'] == 'PUIT' %}selected{% endif %}>PUIT</option>
+         </select>
+       </div>
+
+       <div class="form-group">
+        <label for="anne">Année:<span class="required">*</span></label>
+        <textarea name="anne"  class="form-control auto-expand" required>{{ row['anne'] }}</textarea>
+       </div>
+         
+       <div class="form-group">
+        <label for="format">format:</label>
+        <select type="text" name="typeDoc" >
+          <option value="" disabled {% if not row['format'] %}selected{% endif %}></option>
+          <option value="Soft" {% if row['format'] == 'Soft' %}selected{% endif %}>Soft</option>
+          <option value="Hard" {% if row['format'] == 'Hard' %}selected{% endif %}>Hard</option>
+          <option value="Hard & Soft" {% if row['format'] == 'Hard & Soft' %}selected{% endif %}>Hard & Soft</option>
+         </select>
+       </div>
+
+       <div class="form-group">
+        <label for="cond">Conditionnement:<span class="required">*</span></label>
+        <select type="text" name="cond" id="cond" >
+          {% for val in list2_values %}
+            <option value="{{ val }}" {% if row['cond'] == val %}selected{% endif %}>{{ val }}</option>
+          {% endfor %}
+         </select>
+       </div>
+       
+       <div class="form-group center-button">
+        <label for="comtr">Commentaire:</label>
+        <input type="text" name="comtr" value="{{ row['comtr'] }}">
+       </div>
+
+       <div class="form-group center-button">
+         <button type="submit">Changer</button>
+       </div>
+      </form>
+   </div>
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+ {% endwith %}
+
+</body>
+</html>
+
+<script>
+document.querySelectorAll('textarea.auto-expand').forEach(textarea => {
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
+});
+</script>

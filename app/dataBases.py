@@ -1,5 +1,5 @@
 from app.auth import login_required,admin_required
-from app.config import DB_PATH, DB_PATH_M,DB_PATH_FIN,DB_PATH_RH,DB_PATH_USERS,DB_PATH_LISTES
+from app.config import DB_PATH, DB_PATH_M,DB_PATH_FIN,DB_PATH_RH,DB_PATH_USERS,DB_PATH_LISTES,DB_PATH_D
 import sqlite3
 from werkzeug.security import generate_password_hash
 
@@ -123,6 +123,33 @@ def setup_db_envm():
     conn.close()
 setup_db_envm()
 
+# ------------------ database for inventaire Doublons ------------------
+# Database setup
+def setup_db_envd():
+    conn = sqlite3.connect(DB_PATH_D)
+    cursor = conn.cursor()
+    # Create the table if it does not exist
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS entriesenvd (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nameAgent TEXT,
+            boxCote INTEGER,
+            boxNum TEXT,
+            strc TEXT,
+            intl TEXT,
+            typeDoc TEXT,
+            Ref TEXT,
+            catg Text,
+            anne TEXT,
+            format TEXT,
+            cond TEXT,
+            comtr TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.commit()
+    conn.close()
+setup_db_envd()
 # ------------------ database for listes ------------------ 
 def setup_db_lst():
     conn = sqlite3.connect(DB_PATH_LISTES)

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Les Données inventaires 2</title>
+    <title>Les Données inventaires doublons</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styledata.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.ico') }}">
 </head>
@@ -13,14 +13,14 @@
     <a href="{{ url_for('dashboard.dashboard_view') }}">
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
     </a>
-    <a class="download-btn" href="#" onclick="downloadFilteredCSV('dataENVMTable')">Download Data</a>
+    <a class="download-btn" href="#" onclick="downloadFilteredCSV('dataENVDTable')">Download Data</a>
 </header>
 
 <body>
     <div class="container">
         <h2>Data Inventaire</h2>
         <div class="table-responsive">
-         <table id="dataENVMTable">
+         <table id="dataENVDTable">
             <thead>
                 <tr>
                     <th>Actions</th> 
@@ -30,9 +30,11 @@
                     <th data-column="boxNum">Num boite</th>
                     <th data-column="strc">Structure</th>
                     <th data-column="intl">Intitulé</th>
-                    <th data-column="mois">Mois</th>
-                    <th data-column="anne">Année</th>
                     <th data-column="typeDoc">Type Document</th>
+                    <th data-column="Ref">Référence</th>
+                    <th data-column="catg">category</th>
+                    <th data-column="anne">Année</th>
+                    <th data-column="format">Format</th>
                     <th data-column="cond">Conditionnement</th>
                     <th data-column="comtr">Commentaire</th>
                     <th data-column="created_at">Date</th>
@@ -58,21 +60,15 @@
                     </select>
                   </th>
                   <th><input type="text" placeholder="Filter Intitulé"></th>
+                  <th><input type="text" placeholder="Filter Type Document"></th>
+                  <th><input type="text" placeholder="Filter Référence"></th>
                   <th>
                     <select>
-                     <option value="">Tous les Mois </option>
-                     <option value="JANVIER">JANVIER</option>
-                     <option value="FÉVRIER">FÉVRIER</option>
-                     <option value="MARS">MARS</option>
-                     <option value="AVRIL">AVRIL</option>
-                     <option value="MAI">MAI</option>
-                     <option value="JUIN">JUIN</option>
-                     <option value="JUILLET">JUILLET</option>
-                     <option value="AOÛT">AOÛT</option>
-                     <option value="SEPTEMBRE">SEPTEMBRE</option>
-                     <option value="OCTOBRE">OCTOBRE</option>
-                     <option value="NOVEMBRE">NOVEMBRE</option>
-                     <option value="DÉCEMBRE">DÉCEMBRE</option>
+                      <option value=""selected>tous les categories</option>
+                      <option value="TRAIN 01">TRAIN 01</option>
+                      <option value="TRAIN 02">TRAIN 02</option>
+                      <option value="TRAIN 03">TRAIN 03</option>
+                      <option value="PUIT">PUIT</option>
                     </select>
                   </th>
                   <th><input type="text" placeholder="Filter Année"></th>
@@ -108,7 +104,7 @@
    <script>
    document.addEventListener("DOMContentLoaded", function () {
     setupDataTable({
-        tableId: "dataENVMTable",
+        tableId: "dataENVDTable",
         basePath: "",            
         limit: 20
     });

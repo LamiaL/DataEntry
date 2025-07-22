@@ -85,6 +85,14 @@
 						<p>Le nombre des inventaires 2</p>
 					</span>
 				</li>
+
+                 <li>
+                    <a href="{{ url_for('dataenvd.dataenvd_view') }}"><i class="fa-solid fa-boxes-stacked"></i></a>
+					<span class="text">
+						<h1>{{ INVD_NB }}</h1>
+						<p>Le nombre des inventaires doublons</p>
+					</span>
+				</li>
                
 			</ul>
 
@@ -146,7 +154,7 @@
                         <!-- Entries inventaire M by Date -->
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Nombre des inventaires Madjid par jour</h5>
+                                <h5 class="card-title">Nombre des inventaires 2 par jour</h5>
                                 <canvas id="entriesmByDateChart"></canvas>
                             </div>
                         </div>
@@ -154,8 +162,24 @@
                         <!-- Entries inventaire M by Agent -->
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Nombre des inventaires Madjid par agent</h5>
+                                <h5 class="card-title">Nombre des inventaires 2 par agent</h5>
                                 <canvas id="entriesmByAgent"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Entries inventaire D by Date -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des inventaires doublons par jour</h5>
+                                <canvas id="entriesdByDateChart"></canvas>
+                            </div>
+                        </div>
+            
+                        <!-- Entries inventaire D by Agent -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre des inventaires doublons par agent</h5>
+                                <canvas id="entriesdByAgent"></canvas>
                             </div>
                         </div>
                     </div>
@@ -340,7 +364,43 @@
                 });
             }
 
-             
+              // Fetch entries doublons by date
+             const dateDataD = await fetchChartData("/api/entriesd_by_date");
+            if (dateDataM.length > 0) {
+                const dateLabels = dateDataD.map(item => item.date);
+                const dateCounts = dateDataD.map(item => item.count);
+
+                new Chart(document.getElementById("entriesdByDateChart"), {
+                    type: "line",
+                    data: {
+                        labels: dateLabels,
+                        datasets: [{
+                            label: "Nb des inventaires doublons par jour",
+                            data: dateCounts,
+                            borderColor: ["yellow"],
+                            fill: false
+                        }]
+                    }
+                });
+            }
+            // Fetch entries Madjid by agent
+            const agentDataD = await fetchChartData("/api/entriesd_by_agent");
+            if (agentDataM.length > 0) {
+                const agentLabels = agentDataD.map(item => item.agent);
+                const agentCounts = agentDataD.map(item => item.count);
+
+                new Chart(document.getElementById("entriesdByAgent"), {
+                    type: "bar",
+                    data: {
+                        labels: agentLabels,
+                        datasets: [{
+                            label: "Nb des inventaires doublons par agent",
+                            data: agentCounts,
+                            backgroundColor: ["green"]
+                        }]
+                    }
+                });
+            }
 
         }
 

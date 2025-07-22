@@ -10,12 +10,14 @@ DB_PATH = os.path.join(DATA_FOLDER, "data_inventaire.db")
 DB_PATH_RH = os.path.join(DATA_FOLDER, "data_inventaire_RH.db")
 DB_PATH_FIN = os.path.join(DATA_FOLDER, "data_inventaire_FIN.db")
 DB_PATH_M = os.path.join(DATA_FOLDER, "data_inventaire_M.db")
+DB_PATH_D = os.path.join(DATA_FOLDER, "data_inventaire_D.db")
 DB_PATH_LISTES = os.path.join(DATA_FOLDER, "data_listes.db")
 
 CSV_PATH = os.path.join(BASE_DIR, "data", "data_inventaire.csv")
 CSV_PATH_M = os.path.join(BASE_DIR, "data", "data_inventairem.csv")
 CSV_PATH_FIN = os.path.join(BASE_DIR, "data", "data_inventairerh.csv")
 CSV_PATH_RH = os.path.join(BASE_DIR, "data", "data_inventairefin.csv")
+CSV_PATH_D = os.path.join(BASE_DIR, "data", "data_inventaired.csv") 
 
 TABLE_CONFIG = {
         "dataENVMTable": {
@@ -24,6 +26,17 @@ TABLE_CONFIG = {
             "fields": ["nameAgent", "boxCote", "boxNum", "strc","intl", "mois", "anne", "typeDoc", "cond", "comtr"],
             "template": "edit_envm.html",  
             "redirect": "dataenvm.dataenvm_view",
+            "required_lists": ["structures2", "conditionnement"],
+              "lists": [
+            {"list_name": "structures2", "key": "list_values"},
+            {"list_name": "conditionnement", "key": "list2_values"} ]
+        },
+        "dataENVDTable": {
+            "db_path": DB_PATH_D,
+            "table_name": "entriesenvd",
+            "fields": ["nameAgent", "boxCote", "boxNum", "strc","intl", "Ref", "catg", "anne", "typeDoc", "cond", "comtr"],
+            "template": "edit_envd.html",  
+            "redirect": "dataenvd.dataenvd_view",
             "required_lists": ["structures2", "conditionnement"],
               "lists": [
             {"list_name": "structures2", "key": "list_values"},
